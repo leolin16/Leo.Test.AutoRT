@@ -1,9 +1,14 @@
 using GraphQL.Types;
+using Leo.Test.AutoRT.Queries;
 
-public class HelloWorldSchema : Schema
+namespace Leo.Test.AutoRT.Schemas
 {
-    public HelloWorldSchema(HelloWorldQuery query)
+
+    public class HelloWorldSchema : Schema
     {
-        Query = query;
+        public HelloWorldSchema(HelloWorldQuery query)
+        {
+            Query = query;
+        }
     }
 }

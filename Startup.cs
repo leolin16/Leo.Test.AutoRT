@@ -6,11 +6,14 @@ using System.Threading.Tasks;
 using GraphQL;
 using GraphQL.Http;
 using GraphQL.Types;
+using Leo.Test.AutoRT.Queries;
+using Leo.Test.AutoRT.Schemas;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
+
 
 namespace Leo.Test.AutoRT
 {
@@ -29,6 +32,8 @@ namespace Leo.Test.AutoRT
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            app.UseDefaultFiles();
+            app.UseStaticFiles();
             app.UseMiddleware<GraphQLMiddleware>();
             if (env.IsDevelopment())
             {

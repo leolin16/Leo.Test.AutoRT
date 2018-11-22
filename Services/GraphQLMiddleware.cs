@@ -37,6 +37,7 @@ public class GraphQLMiddleware
                 {
                     doc.Schema = _schema;
                     doc.Query = request.Query;
+                    doc.Inputs = request.Variables.ToInputs();
                 }).ConfigureAwait(false);
 
                 var json = _writer.WriteToStringAsync(result).Result;

@@ -6,11 +6,18 @@ using System.Threading.Tasks;
 using GraphQL;
 using GraphQL.Http;
 using GraphQL.Types;
+using Leo.Test.AutoRT.Data;
+using Leo.Test.AutoRT.Interfaces;
+using Leo.Test.AutoRT.Mutations;
 using Leo.Test.AutoRT.Queries;
+using Leo.Test.AutoRT.Repositories;
 using Leo.Test.AutoRT.Schemas;
+using Leo.Test.AutoRT.Types;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 
@@ -21,12 +28,25 @@ namespace Leo.Test.AutoRT
     {
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
+        public IConfiguration Configuration { get; set; }
+        public IHostingEnvironment _env { get; set; }
+        public Startup(IConfiguration configuration, IHostingEnvironment environment)
+        {
+            Configuration = configuration;
+            _env = environment;
+        }
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSingleton<IDocumentWriter>(d => new DocumentWriter(true));
             services.AddSingleton<IDocumentExecuter, DocumentExecuter>();
-            services.AddSingleton<HelloWorldQuery>();
-            services.AddSingleton<ISchema, HelloWorldSchema>();
+            services.AddScoped<InventoryQuery>();
+            services.AddScoped<ISchema, InventorySchema>();
+            services.AddScoped<ScreenType>();
+            services.AddScoped<IDataStore, DataStore>();
+            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddScoped<ScreenInputType>();
+            services.AddScoped<InventoryMutation>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -50,7 +70,7 @@ namespace Leo.Test.AutoRT
             //         {
             //             body = await streamReader.ReadToEndAsync();
             //             var request = JsonConvert.DeserializeObject<GraphQLRequest>(body);
-            //             var schema = new Schema { Query = new HelloWorldQuery() };
+            //             var schema = new Schema { Query = new InventoryQuery() };
             //             var result = await new DocumentExecuter().ExecuteAsync(doc =>
             //             {
             //                 doc.Schema = schema;

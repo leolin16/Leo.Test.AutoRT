@@ -1,5 +1,6 @@
 public class Screen
 {
+    public int Id { get; set; }
     public string Category { get; set; }
 
     public string ScreenName { get; set; }
@@ -14,5 +15,5 @@ public class Screen
     public string ScreenType { get; set; }
     public string ScreenFilter { get; set; }
     public string ScreenContent { get; set; }
-    
+
 }

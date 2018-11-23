@@ -6,6 +6,7 @@ namespace Leo.Test.AutoRT.Types
     {
         public ScreenType()
         {
+            Field(i => i.Id);
             Field(i => i.Category);
             Field(i => i.ScreenName);
             Field(i => i.ScreenJpName);

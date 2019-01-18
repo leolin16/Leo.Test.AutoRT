@@ -5,6 +5,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using GraphQL;
 using GraphQL.Http;
+using GraphQL.Server;
+using GraphQL.Server.Ui.GraphiQL;
+using GraphQL.Server.Ui.Playground;
+using GraphQL.Server.Ui.Voyager;
 using GraphQL.Types;
 using Leo.Test.AutoRT.Data;
 using Leo.Test.AutoRT.Interfaces;
@@ -39,22 +43,31 @@ namespace Leo.Test.AutoRT
         {
             services.AddSingleton<IDocumentWriter>(d => new DocumentWriter(true));
             services.AddSingleton<IDocumentExecuter, DocumentExecuter>();
-            services.AddScoped<InventoryQuery>();
             services.AddScoped<ISchema, InventorySchema>();
-            services.AddScoped<ScreenType>();
+            services.AddScoped<IDependencyResolver>(s => new FuncDependencyResolver(
+                s.GetRequiredService
+            ));
             services.AddScoped<IDataStore, DataStore>();
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddScoped<ScreenInputType>();
-            services.AddScoped<InventoryMutation>();
+            services.AddGraphQL(o => { o.ExposeExceptions = true; })
+                    .AddGraphTypes(ServiceLifetime.Scoped);
+            // services.AddScoped<ScreenType>();
+            // services.AddScoped<ScreenInputType>();
+            // services.AddScoped<InventoryQuery>();
+            // services.AddScoped<InventoryMutation>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            app.UseDefaultFiles();
-            app.UseStaticFiles();
-            app.UseMiddleware<GraphQLMiddleware>();
+            // app.UseDefaultFiles();
+            // app.UseStaticFiles();
+            // app.UseMiddleware<GraphQLMiddleware>();
+            app.UseGraphQL<ISchema>(); // default address: /graphql => "/api/graphql"(expected)
+            // app.UseGraphiQLServer(new GraphiQLOptions()); // default address: /graphiql
+            app.UseGraphQLPlayground(new GraphQLPlaygroundOptions()); // default address: /ui/playground
+            // app.UseGraphQLVoyager(new GraphQLVoyagerOptions()); // default address: /ui/voyager
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

@@ -8,7 +8,7 @@ namespace Leo.Test.AutoRT.Types
         {
             Field(i => i.Id);
             Field(i => i.Category);
-            Field(i => i.ScreenName);
+            Field(i => i.ScreenName).Description("The name of the screen");
             Field(i => i.ScreenJpName);
         }
     }

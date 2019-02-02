@@ -4,12 +4,13 @@ using Leo.Test.AutoRT.Data;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
 namespace Leo.Test.AutoRT
 {
     public static class SeedData
     {
-        public static IWebHost EnsureSeedDataForAutoRT(this IWebHost host)
+        public static IHost EnsureSeedDataForAutoRT(this IHost host)
         {
             using (var scope = host.Services.CreateScope())
             {

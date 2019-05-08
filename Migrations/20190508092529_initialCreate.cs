@@ -2,7 +2,7 @@
 
 namespace Leo.Test.AutoRT.Migrations
 {
-    public partial class Initial : Migration
+    public partial class initialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -15,14 +15,14 @@ namespace Leo.Test.AutoRT.Migrations
                     Category = table.Column<string>(nullable: true),
                     ScreenName = table.Column<string>(nullable: true),
                     ScreenJpName = table.Column<string>(nullable: true),
-                    Availability = table.Column<string>(nullable: true),
+                    Availability = table.Column<bool>(nullable: false),
                     VeriMethod = table.Column<string>(nullable: true),
                     VeriNo = table.Column<string>(nullable: true),
                     BrowserType = table.Column<string>(nullable: true),
-                    BrowserFilter = table.Column<string>(nullable: true),
+                    BrowserFilter = table.Column<int>(nullable: false),
                     BrowserContent = table.Column<string>(nullable: true),
                     ScreenType = table.Column<string>(nullable: true),
-                    ScreenFilter = table.Column<string>(nullable: true),
+                    ScreenFilter = table.Column<int>(nullable: false),
                     ScreenContent = table.Column<string>(nullable: true)
                 },
                 constraints: table =>

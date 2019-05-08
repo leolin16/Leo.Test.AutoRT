@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Leo.Test.AutoRT.Data;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -20,17 +21,27 @@ namespace Leo.Test.AutoRT
                 applicationDbContext.Database.MigrateAsync();
                 applicationDbContext.Database.EnsureCreatedAsync();
 
-                var screens = new List<Screen>(){
-                    new Screen { Category= "Others", ScreenName="EP_LOGIN", ScreenJpName="ログイン_EP"},
-                    new Screen { Category= "Eface_Core", ScreenName="EC_CHANGE_ACTOR_MF", ScreenJpName= "担当者変更_MainFrame"},
-                    new Screen { Category= "Create_Quick", ScreenName="EP_CREATE_APP_QUICK", ScreenJpName= "クイック申込"}
-                };
+				if (applicationDbContext.Screens.Any())
+                {
+					Console.WriteLine("Screens already exist");
+                }
+                else
+                {
 
-                applicationDbContext.Screens.AddRangeAsync(screens);
+                    var screens = new List<Screen>(){
+                        new Screen { Category= "Others", ScreenName="EP_LOGIN", ScreenJpName="ログイン_EP"},
+                        new Screen { Category= "Eface_Core", ScreenName="EC_CHANGE_ACTOR_MF", ScreenJpName= "担当者変更_MainFrame"},
+                        new Screen { Category= "Create_Quick", ScreenName="EP_CREATE_APP_QUICK", ScreenJpName= "クイック申込"}
+                    };
 
-                applicationDbContext.SaveChangesAsync();
-                Console.WriteLine("Screens added");
+                    applicationDbContext.Screens.AddRangeAsync(screens);
+
+                    applicationDbContext.SaveChangesAsync();
+                    Console.WriteLine("Screens added");
+                }
+
             }
+            Console.WriteLine("before returning host");
             return host;
         }
     }

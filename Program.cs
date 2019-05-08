@@ -16,6 +16,7 @@ namespace Leo.Test.AutoRT
         public static void Main(string[] args)
         {
             CreateHostBuilder(args).Build().EnsureSeedDataForAutoRT().Run();
+            Console.WriteLine("Program Run");
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>

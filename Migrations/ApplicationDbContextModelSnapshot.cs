@@ -13,18 +13,18 @@ namespace Leo.Test.AutoRT.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.1.4-rtm-31024");
+                .HasAnnotation("ProductVersion", "3.0.0-preview5.19227.1");
 
             modelBuilder.Entity("Screen", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Availability");
+                    b.Property<bool>("Availability");
 
                     b.Property<string>("BrowserContent");
 
-                    b.Property<string>("BrowserFilter");
+                    b.Property<int>("BrowserFilter");
 
                     b.Property<string>("BrowserType");
 
@@ -32,7 +32,7 @@ namespace Leo.Test.AutoRT.Migrations
 
                     b.Property<string>("ScreenContent");
 
-                    b.Property<string>("ScreenFilter");
+                    b.Property<int>("ScreenFilter");
 
                     b.Property<string>("ScreenJpName");
 

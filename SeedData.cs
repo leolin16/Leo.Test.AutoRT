@@ -11,15 +11,16 @@ namespace Leo.Test.AutoRT
 {
     public static class SeedData
     {
-        public static IHost EnsureSeedDataForAutoRT(this IHost host)
+        // for dotnet core 3.0 should be IHost rather than IWebHost
+        public static IWebHost EnsureSeedDataForAutoRT(this IWebHost host)
         {
             using (var scope = host.Services.CreateScope())
             {
                 var applicationDbContext = scope.ServiceProvider.GetService<ApplicationDbContext>();
 
-                applicationDbContext.Database.EnsureDeletedAsync();
+                // applicationDbContext.Database.EnsureDeletedAsync();
                 applicationDbContext.Database.MigrateAsync();
-                applicationDbContext.Database.EnsureCreatedAsync();
+                // applicationDbContext.Database.EnsureCreatedAsync();
 
 				if (applicationDbContext.Screens.Any())
                 {
